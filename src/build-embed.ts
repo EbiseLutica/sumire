@@ -5,7 +5,6 @@ import { User } from './types/User';
 export const buildUserEmbed = (user: User, localHost: string) => {
   const acct = toAcct(user);
   return {
-    description: user.description || '自己紹介なし',
     author: {
       name: `${user.name || user.username} ${acct}`,
       url: `https://${localHost}/${acct}`,

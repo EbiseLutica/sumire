@@ -55,7 +55,12 @@ app.post('/sumire', async (ctx) => {
         await webhook(ctx.env.DISCORD_WEBHOOK_URL, buildDiscordPayload('**返信があります。**', buildNoteEmbed(payload.body.note, host)));
         break;
       case 'renote':
-        await webhook(ctx.env.DISCORD_WEBHOOK_URL, buildDiscordPayload('**Renoteされました。**', buildNoteEmbed(payload.body.note, host)));
+        const discordPayload = payload.body.note.text ? (
+          buildDiscordPayload('**引用されました。**', buildNoteEmbed(payload.body.note, host))
+        ) : (
+          buildDiscordPayload('**Renoteされました。**', buildUserEmbed(payload.body.note.user, host))
+        );
+        await webhook(ctx.env.DISCORD_WEBHOOK_URL, discordPayload);
         break;
       case 'mention':
         await webhook(
